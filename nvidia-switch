@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # ***************************************************************************
-# *   Copyright (C) 2007-2008 by Heinz Wiesinger                            *
+# *   Copyright (C) 2007-2009 by Heinz Wiesinger                            *
 # *   pprkut@liwjatan.at                                                    *
 # *   http://www.liwjatan.at                                                *
 # *                                                                         *
@@ -20,7 +20,7 @@
 # *   Free Software Foundation, Inc.,                                       *
 # *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
 # ***************************************************************************/
-# nvidia-switch utility 0.7.5
+# nvidia-switch utility 0.8.0
 #
 # A tool to switch between nvidia-binary-driver and stock xorg-driver
 # if both are installed in parallel.
@@ -29,9 +29,10 @@ set -e
 
 ROOT="/"
 CWD=$(pwd)
+LIBDIRSUFFIX="LIBDIRSUFFIX" # This will be replaced in the build script
 INC="${ROOT}usr/include/GL"
-LIB="${ROOT}usr/lib"
-XMOD="${ROOT}usr/lib/xorg/modules"
+LIB="${ROOT}usr/lib${LIBDIRSUFFIX}"
+XMOD="${LIB}/xorg/modules"
 XLIB="$XMOD/extensions"
 NV_VERSION='PKGVERSION' # This will be replaced in the build script
 GL_VERSION="1.2"
