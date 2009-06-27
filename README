@@ -1,0 +1,23 @@
+nvidia-switch can be used to switch between the stock xorg driver and
+the nvidia driver, but it will not edit xorg.conf for you; you have to do
+that manually.
+
+Currently this requires the upstream nvidia binary driver to be installed
+in a special way, as it is done by the SlackBuilds on SlackBuilds.org
+
+Usage of nvidia-switch:
+  nvidia-switch --xorg	 <-->  switch to the stock xorg files
+
+  nvidia-switch --nvidia  <--> switch to the proprietary nvidia files
+
+  nvidia-switch --cleanup <--> switch to the stock xorg file and remove all
+    symlinks created by nvidia-switch
+
+  nvidia-switch --check-nvidia <--> Check if everything is setup correctly
+    for nvidia's driver
+
+  nvidia-switch --check-xorg <--> Check if everything is setup correctly
+    for xorg's driver"
+
+  nvidia-switch --check-cleanup <--> Check if everything has been cleaned
+    up correctly"
