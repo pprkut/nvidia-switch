@@ -29,9 +29,9 @@ set -e
 
 ROOT="/"
 CWD=$(pwd)
-LIBDIRSUFFIX="LIBDIRSUFFIX" # This will be replaced in the build script
+LIBSUFFIX="LIBDIRSUFFIX" # This will be replaced in the build script
 INC="${ROOT}usr/include/GL"
-LIB="${ROOT}usr/lib${LIBDIRSUFFIX}"
+LIB="${ROOT}usr/lib${LIBSUFFIX}"
 XMOD="${LIB}/xorg/modules"
 XLIB="$XMOD/extensions"
 NV_VERSION='PKGVERSION' # This will be replaced in the build script
