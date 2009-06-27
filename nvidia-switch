@@ -459,7 +459,7 @@ nvidia(){
   libglx_nvidia
   libwfb_nvidia
 
-  LD_NVIDIA="/usr/lib/libGL.so.$NV_VERSION-nvidia"
+  LD_NVIDIA="${LIB}/libGL.so.$NV_VERSION-nvidia"
   nvidia_ldconfig $LD_NVIDIA
 }
 
@@ -487,7 +487,7 @@ xorg(){
    fi
    remove_link "$XMOD/libwfb.so"
 
-   LD_NVIDIA="/usr/lib/libGL.so.1.2"
+   LD_NVIDIA="${LIB}/libGL.so.1.2"
    nvidia_ldconfig $LD_NVIDIA "xorg"
 }
 
