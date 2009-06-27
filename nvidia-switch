@@ -510,9 +510,14 @@ if [ "$1" = '--nvidia' ]; then
 elif [ "$1" = '--install' ]; then
   ROOT=""
   CWD=$(pwd)
+  if [ -e "${ROOT}usr/lib64" ]; then
+    LIBSUFFIX="64"
+  else
+    LIBSUFFIX=""
+  fi
   INC="${ROOT}usr/include/GL"
-  LIB="${ROOT}usr/lib"
-  XMOD="${ROOT}usr/lib/xorg/modules"
+  LIB="${ROOT}usr/lib${LIBSUFFIX}"
+  XMOD="${LIB}/xorg/modules"
   XLIB="$XMOD/extensions"
   nvidia
 elif [ "$1" = '--xorg' ]; then
