@@ -98,7 +98,7 @@ cd "$CWD"
 }
 
 libs(){
-for i in libGLcore.so libGLcore.la libglx.la; do
+for i in libglx.la; do
   if [ "$1" = "nvidia" ]; then
     #If this library exists, move it to *-xorg
     move_existing "$XLIB/$i" "$XLIB/$i-xorg"
@@ -306,10 +306,8 @@ check_includes(){
 check_glcore(){
   if [ "$1" = "nvidia" ]; then
     CHECK="link"
-    EXT=""
   else
     CHECK="exist"
-    EXT="-xorg"
   fi
 
   for i in libGLcore.so.1 libGLcore.so.$NV_VERSION libGLcore.so.$NV_VERSION-nvidia; do
@@ -319,18 +317,6 @@ check_glcore(){
       check $LIB $i $CHECK
     else
       check $LIB $i
-    fi
-  done
-
-  echo ""
-
-  for i in libGLcore.so libGLcore.la libGLcore.so-xorg libGLcore.la-xorg; do
-    if [ "$i" = "libGLcore.so$EXT" ]; then
-      check $XLIB $i "exist"
-    elif [ "$i" = "libGLcore.la$EXT" ]; then
-      check $XLIB $i "exist"
-    else
-      check $XLIB $i
     fi
   done
 
