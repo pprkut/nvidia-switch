@@ -434,7 +434,7 @@ cleanup_check(){
 
 nvidia(){
   echo $'Switching to nvidia-driver files!\n'
-  echo "You have to ENABLE the nvidia driver in /etc/X11/xorg.conf."
+  echo "Make sure the nvidia driver is ENABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
 
   incs "xorg" "nvidia"
@@ -454,7 +454,7 @@ xorg(){
   if [ "$1" = "cleanup" ]; then
     echo $'Cleaning up symlinks.\n'
   fi
-  echo "You have to DISABLE the nvidia driver in /etc/X11/xorg.conf."
+  echo "Make sure the nvidia driver is DISABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
 
   if [ "$1" = "cleanup" ]; then
