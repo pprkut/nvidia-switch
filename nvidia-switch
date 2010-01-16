@@ -236,15 +236,6 @@ fi
 cd $CWD
 }
 
-libwfb_nvidia(){
-#Recreate the link removed by --xorg
-if ! [ -e "$XMOD/libwfb.so" ]; then
-  cd $XMOD
-  ln -s libnvidia-wfb.so.1 libwfb.so
-  cd $CWD
-fi
-}
-
 nvidia_ldconfig(){
 /sbin/ldconfig
 #Generate correct symink for that lib
@@ -360,7 +351,7 @@ check_glx(){
 }
 
 check_wfb(){
-  for i in libwfb.so libwfb.la libnvidia-wfb.so.1 libnvidia-wfb.so.$NV_VERSION; do
+  for i in libnvidia-wfb.so.1 libnvidia-wfb.so.$NV_VERSION; do
     if [ "$i" = "libnvidia-wfb.so.1" ]; then
       check $XMOD $i "link"
     else
@@ -443,7 +434,6 @@ nvidia(){
   libglcore_nvidia
   libs "nvidia"
   libglx_nvidia
-  libwfb_nvidia
 
   LD_NVIDIA="${LIB}/libGL.so.$NV_VERSION-nvidia"
   nvidia_ldconfig $LD_NVIDIA
@@ -471,7 +461,6 @@ xorg(){
    else
      libglx_xorg "xorg"
    fi
-   remove_link "$XMOD/libwfb.so"
 
    LD_NVIDIA="${LIB}/libGL.so.1.2"
    nvidia_ldconfig $LD_NVIDIA "xorg"
