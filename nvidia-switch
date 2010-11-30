@@ -30,7 +30,6 @@ set -e
 ROOT="/"
 CWD=$(pwd)
 LIBSUFFIX="LIBDIRSUFFIX" # This will be replaced in the build script
-INC="${ROOT}usr/include/GL"
 LIB="${ROOT}usr/lib${LIBSUFFIX}"
 XMOD="${LIB}/xorg/modules"
 XLIB="$XMOD/extensions"
@@ -62,39 +61,6 @@ setup_link(){
     rm -f $2
   fi
   ln -s "$3" "$2"
-}
-
-# Move and rename files in /usr/include
-# $1 = from
-# $2 = to
-incs(){
-cd "$INC"
-
-if [ "$2" = "cleanup" ]; then
-  CMD="mv"
-  THREE="$1"
-else
-  CMD="ln -s"
-  THREE="$2"
-fi
-
-for i in glxext.h glext.h glx.h gl.h; do
-  if [ -L "$i" ]; then
-    rm -f "$i"
-    $CMD "$i-$THREE" "$i"
-  elif [ -e "$i" ]; then
-    if [ "$2" = "cleanup" ]; then
-      rm -f "$i-$1"
-    else
-      mv "$i" "$i-$1"
-      ln -s "$i-$THREE" "$i"
-    fi
-  else
-    $CMD "$i-$THREE" "$i"
-  fi
-done
-
-cd "$CWD"
 }
 
 libs(){
@@ -259,23 +225,6 @@ check(){
   fi
 }
 
-check_includes(){
-  if [ "$1" = "cleanup" ]; then
-    cleanup=""
-    cleanup2="exist"
-  else
-    cleanup="link"
-    cleanup2=""
-  fi
-
-  for i in glext.h glxext.h gl.h glx.h; do
-    check $INC $i $cleanup
-    check $INC $i-nvidia
-    check $INC $i-xorg $cleanup2
-    echo ""
-  done
-}
-
 check_glx(){
   if [ "$1" = "xorg" ]; then
     xorg="exist"
@@ -350,8 +299,6 @@ check_gl(){
 }
 
 nvidia_check(){
-  check_includes
-
   check_gl "nvidia"
 
   check_glx
@@ -360,8 +307,6 @@ nvidia_check(){
 }
 
 xorg_check(){
-  check_includes
-
   check_gl
 
   check_glx "xorg"
@@ -370,8 +315,6 @@ xorg_check(){
 }
 
 cleanup_check(){
-  check_includes "cleanup"
-
   check_gl
 
   check_glx "cleanup"
@@ -384,7 +327,6 @@ nvidia(){
   echo "Make sure the nvidia driver is ENABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
 
-  incs "xorg" "nvidia"
   lib_nvidia
   libgl_nvidia
   libs "nvidia"
@@ -401,12 +343,6 @@ xorg(){
   fi
   echo "Make sure the nvidia driver is DISABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
-
-  if [ "$1" = "cleanup" ]; then
-    incs "xorg" "cleanup"
-  else
-    incs "xorg" "xorg"
-  fi
 
    libs_basic
    libgl_xorg
@@ -445,7 +381,6 @@ elif [ "$1" = '--install' ]; then
   else
     LIBSUFFIX=""
   fi
-  INC="${ROOT}usr/include/GL"
   LIB="${ROOT}usr/lib${LIBSUFFIX}"
   XMOD="${LIB}/xorg/modules"
   XLIB="$XMOD/extensions"
