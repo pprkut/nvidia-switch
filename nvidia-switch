@@ -259,23 +259,6 @@ check(){
   fi
 }
 
-check_includes(){
-  if [ "$1" = "cleanup" ]; then
-    cleanup=""
-    cleanup2="exist"
-  else
-    cleanup="link"
-    cleanup2=""
-  fi
-
-  for i in glext.h glxext.h gl.h glx.h; do
-    check $INC $i $cleanup
-    check $INC $i-nvidia
-    check $INC $i-xorg $cleanup2
-    echo ""
-  done
-}
-
 check_glx(){
   if [ "$1" = "xorg" ]; then
     xorg="exist"
@@ -350,8 +333,6 @@ check_gl(){
 }
 
 nvidia_check(){
-  check_includes
-
   check_gl "nvidia"
 
   check_glx
@@ -360,8 +341,6 @@ nvidia_check(){
 }
 
 xorg_check(){
-  check_includes
-
   check_gl
 
   check_glx "xorg"
@@ -370,8 +349,6 @@ xorg_check(){
 }
 
 cleanup_check(){
-  check_includes "cleanup"
-
   check_gl
 
   check_glx "cleanup"
