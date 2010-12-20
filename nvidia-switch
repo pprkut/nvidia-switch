@@ -370,17 +370,17 @@ xorg(){
   echo "Make sure the nvidia driver is DISABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
 
-   libs_basic
-   libgl_xorg
-   libs ""
-   if [ "$1" = "cleanup" ]; then
-     libglx_xorg ""
-   else
-     libglx_xorg "xorg"
-   fi
+  libs_basic
+  libgl_xorg
+  libs ""
+  if [ "$1" = "cleanup" ]; then
+    libglx_xorg ""
+  else
+    libglx_xorg "xorg"
+  fi
 
-   LD_NVIDIA="${LIB}/libGL.so.1.2"
-   nvidia_ldconfig $LD_NVIDIA "xorg"
+  LD_NVIDIA="${LIB}/libGL.so.1.2"
+  nvidia_ldconfig $LD_NVIDIA "xorg"
 }
 
 usage(){
