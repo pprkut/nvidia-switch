@@ -70,27 +70,18 @@ setup_link(){
 incs(){
 cd "$INC"
 
-if [ "$2" = "cleanup" ]; then
-  CMD="mv"
-  THREE="$1"
-else
-  CMD="ln -s"
-  THREE="$2"
-fi
-
 for i in glxext.h glext.h glx.h gl.h; do
   if [ -L "$i" ]; then
     rm -f "$i"
-    $CMD "$i-$THREE" "$i"
+    mv "$i-xorg" "$i"
   elif [ -e "$i" ]; then
-    if [ "$2" = "cleanup" ]; then
-      rm -f "$i-$1"
-    else
-      mv "$i" "$i-$1"
-      ln -s "$i-$THREE" "$i"
+    if [ -e "$i-xorg" ]; then
+      rm -f "$i-xorg"
     fi
   else
-    $CMD "$i-$THREE" "$i"
+    if [ -e "$i-xorg" ]; then
+      mv "$i-xorg" "$i"
+    fi
   fi
 done
 
@@ -361,7 +352,7 @@ nvidia(){
   echo "Make sure the nvidia driver is ENABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
 
-  incs "xorg" "nvidia"
+  incs
   lib_nvidia
   libgl_nvidia
   libs "nvidia"
@@ -378,12 +369,6 @@ xorg(){
   fi
   echo "Make sure the nvidia driver is DISABLED in /etc/X11/xorg.conf."
   echo "Otherwise, this may lead to improperly working drivers."
-
-  if [ "$1" = "cleanup" ]; then
-    incs "xorg" "cleanup"
-  else
-    incs "xorg" "xorg"
-  fi
 
    libs_basic
    libgl_xorg
